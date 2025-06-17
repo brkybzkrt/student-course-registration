@@ -21,6 +21,7 @@
 		<module>common-modules/postgres-common</module>
 		<module>common-modules/email-common</module>
 		<module>course-service</module>
+		<module>common-modules/base-interface-common</module>
 	</modules>
 
 	<properties>
