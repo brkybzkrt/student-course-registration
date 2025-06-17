@@ -1,5 +1,7 @@
 package com.student.course.registration.service.impl;
 
+import com.student.course.registration.base.interceptors.requestPath.RequestContextHolder;
+import com.student.course.registration.base.response.SuccessResponse;
 import com.student.course.registration.dto.CourseCreateUpdateDto;
 import com.student.course.registration.dto.CourseResponseDto;
 import com.student.course.registration.entity.Course;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,7 +36,7 @@ public class CourseService implements ICourseService {
             CourseResponseDto response= new CourseResponseDto();
             BeanUtils.copyProperties(savedCourse,response);
 
-            return ResponseEntity.ok().body(response);
+            return ResponseEntity.status(201).body(getCourseResponse(response,201,null));
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -49,9 +52,9 @@ public class CourseService implements ICourseService {
                 CourseResponseDto courseResponse = new CourseResponseDto();
                 BeanUtils.copyProperties(course.get(),courseResponse);
 
-                return ResponseEntity.ok().body(courseResponse);
+                return ResponseEntity.status(200).body(getCourseResponse(courseResponse,200,null));
             }
-            else return ResponseEntity.status(404).body("Resource is not found");
+            else return ResponseEntity.status(404).body(getCourseResponse(null,404,"Resource is not found"));
 
 
         } catch (Exception e) {
@@ -72,9 +75,9 @@ public class CourseService implements ICourseService {
                 CourseResponseDto response = new CourseResponseDto();
                 BeanUtils.copyProperties(createdCourse,response);
 
-                return ResponseEntity.ok().body(response);
+                return ResponseEntity.status(200).body(getCourseResponse(response,200,null));
             }
-            else return ResponseEntity.status(404).body("Resource is not found");
+            else return ResponseEntity.status(404).body(getCourseResponse(null,404,"Resource is not found"));
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -89,9 +92,10 @@ public class CourseService implements ICourseService {
             if(course.isPresent()){
                 courseRepository.deleteById(course.get().getId());
 
-                return ResponseEntity.ok().body("Successfully Deleted");
+                return ResponseEntity.status(200).body(getCourseResponse(null,200,"Successfully Deleted"));
             }
-            else return ResponseEntity.status(404).body("Resource is not found");
+
+            else return ResponseEntity.status(404).body(getCourseResponse(null,404,"Resource is not found"));
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -116,12 +120,24 @@ public class CourseService implements ICourseService {
                         ))
                         .collect(Collectors.toList());
 
-                return  ResponseEntity.ok().body(responseDtos);
+                return  ResponseEntity.status(200).body(getCourseResponse(responseDtos,200,"success"));
             }
 
-            return  ResponseEntity.status(404).body("There are no courses like this type yet, that you are looking for");
+            return  ResponseEntity.status(404).body(getCourseResponse(null,404,"There are no courses like this type yet, that you are looking for"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+
+    private <T> SuccessResponse<T>  getCourseResponse(T data,Integer status,String message) {
+        SuccessResponse<T> response = new SuccessResponse<>();
+        response.setTimestamp(LocalDateTime.now());
+        response.setStatus(status);
+        response.setMessage(message);
+        response.setPath(RequestContextHolder.getPath());
+        response.setData(data);
+
+        return response;
     }
 }
