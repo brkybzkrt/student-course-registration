@@ -1,4 +1,4 @@
-package com.student.course.registration.baseinterface.interfaces;
+package com.student.course.registration.base.interfaces;
 
 import org.springframework.http.ResponseEntity;
 
