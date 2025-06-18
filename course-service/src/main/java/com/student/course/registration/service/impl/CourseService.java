@@ -6,6 +6,7 @@ import com.student.course.registration.dto.CourseCreateUpdateDto;
 import com.student.course.registration.dto.CourseResponseDto;
 import com.student.course.registration.entity.Course;
 import com.student.course.registration.entity.CourseType;
+import com.student.course.registration.exceptionfiltercommon.exceptionFilter.ResourceNotFoundException;
 import com.student.course.registration.repository.CourseRepository;
 import com.student.course.registration.service.ICourseService;
 import org.springframework.beans.BeanUtils;
@@ -54,7 +55,7 @@ public class CourseService implements ICourseService {
 
                 return ResponseEntity.status(200).body(getCourseResponse(courseResponse,200,null));
             }
-            else return ResponseEntity.status(404).body(getCourseResponse(null,404,"Resource is not found"));
+            else  throw new ResourceNotFoundException("Course not found with id: " + id);
 
 
         } catch (Exception e) {
@@ -77,7 +78,7 @@ public class CourseService implements ICourseService {
 
                 return ResponseEntity.status(200).body(getCourseResponse(response,200,null));
             }
-            else return ResponseEntity.status(404).body(getCourseResponse(null,404,"Resource is not found"));
+            else  throw new ResourceNotFoundException("Course not found with id: " + id);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -95,7 +96,8 @@ public class CourseService implements ICourseService {
                 return ResponseEntity.status(200).body(getCourseResponse(null,200,"Successfully Deleted"));
             }
 
-            else return ResponseEntity.status(404).body(getCourseResponse(null,404,"Resource is not found"));
+            else  throw new ResourceNotFoundException("Course not found with id: " + id);
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -122,8 +124,9 @@ public class CourseService implements ICourseService {
 
                 return  ResponseEntity.status(200).body(getCourseResponse(responseDtos,200,"success"));
             }
+            else  throw new ResourceNotFoundException("There are no courses like this type yet, that you are looking for");
 
-            return  ResponseEntity.status(404).body(getCourseResponse(null,404,"There are no courses like this type yet, that you are looking for"));
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
