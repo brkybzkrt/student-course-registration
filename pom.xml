@@ -22,7 +22,8 @@
 		<module>common-modules/email-common</module>
 		<module>course-service</module>
 		<module>common-modules/base-interface-common</module>
-	</modules>
+        <module>common-modules/exception-filter-common</module>
+    </modules>
 
 	<properties>
 		<java.version>21</java.version>
