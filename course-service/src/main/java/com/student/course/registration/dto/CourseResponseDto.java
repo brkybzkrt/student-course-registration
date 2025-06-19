@@ -1,7 +1,7 @@
 package com.student.course.registration.dto;
 
 
-import com.student.course.registration.entity.CourseType;
+import com.student.course.registration.entitycommon.entities.CourseType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,4 +1,4 @@
-package com.student.course.registration.entity;
+package com.student.course.registration.entitycommon.entities;
 
 import com.student.course.registration.postgrescommon.entity.BaseEntity;
 import jakarta.persistence.*;
@@ -7,6 +7,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Table(name = "courses",
@@ -34,4 +37,22 @@ public class Course extends BaseEntity {
     @Column(name = "type",nullable = false)
     @Enumerated(EnumType.STRING)
     private CourseType type; // MANDATORY, ELECTIVE
+
+    @OneToMany(mappedBy = "course")
+    private List<CourseRegistration> registrations = new ArrayList<>();
+
+
+    public boolean hasAvailableCapacity() {
+        long approvedCount = registrations.stream()
+                .filter(r -> r.getStatus() == RegistrationStatusType.APPROVED)
+                .count();
+        return approvedCount < maxCapacity;
+    }
+
+
+    public void updateEnrolledStudents() {
+        this.enrolledStudents = (int) registrations.stream()
+                .filter(r -> r.getStatus() == RegistrationStatusType.APPROVED)
+                .count();
+    }
 }

@@ -14,11 +14,6 @@
     <dependencies>
         <dependency>
             <groupId>com.student.course.registration</groupId>
-            <artifactId>postgres-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.student.course.registration</groupId>
             <artifactId>base-interface-common</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
@@ -32,6 +27,11 @@
         <dependency>
             <groupId>com.student.course.registration</groupId>
             <artifactId>auth-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.student.course.registration</groupId>
+            <artifactId>entity-common</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
