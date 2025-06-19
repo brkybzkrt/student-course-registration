@@ -18,19 +18,18 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.keycloak</groupId>
-            <artifactId>keycloak-admin-client</artifactId>
-            <version>24.0.1</version>
-        </dependency>
-        <dependency>
             <groupId>com.student.course.registration</groupId>
             <artifactId>entity-common</artifactId>
             <version>${project.version}</version>
         </dependency>
-
         <dependency>
             <groupId>com.student.course.registration</groupId>
             <artifactId>exception-filter-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.student.course.registration</groupId>
+            <artifactId>auth-common</artifactId>
             <version>${project.version}</version>
         </dependency>
 

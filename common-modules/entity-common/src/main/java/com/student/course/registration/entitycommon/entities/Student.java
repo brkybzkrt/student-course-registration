@@ -25,15 +25,16 @@ public class Student extends BaseEntity {
     @Column(name = "email",nullable = false,unique = true)
     private String email;
 
+    @Column(name = "keycloak_id",nullable = false, unique = true)
+    private String keycloakId;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     private List<CourseRegistration> courseRegistrations = new ArrayList<>();
 
-    // Öğrencinin seçtiği ders sayısını kontrol eden yardımcı metod
     public boolean canRegisterMoreCourses() {
         long approvedCount = courseRegistrations.stream()
                 .filter(r -> r.getStatus() == RegistrationStatusType.APPROVED)
                 .count();
-        return approvedCount < 5; // Maksimum 5 ders
+        return approvedCount < 5;
     }
 }
