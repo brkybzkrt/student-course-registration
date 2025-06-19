@@ -28,6 +28,12 @@
             <artifactId>exception-filter-common</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.student.course.registration</groupId>
+            <artifactId>auth-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <properties>
