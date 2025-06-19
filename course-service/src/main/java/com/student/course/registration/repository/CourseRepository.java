@@ -1,7 +1,8 @@
 package com.student.course.registration.repository;
 
-import com.student.course.registration.entity.Course;
-import com.student.course.registration.entity.CourseType;
+
+import com.student.course.registration.entitycommon.entities.Course;
+import com.student.course.registration.entitycommon.entities.CourseType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

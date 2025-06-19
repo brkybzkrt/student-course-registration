@@ -1,4 +1,4 @@
-package com.student.course.registration.entity;
+package com.student.course.registration.entitycommon.entities;
 
 import lombok.Getter;
 

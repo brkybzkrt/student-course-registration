@@ -1,11 +1,9 @@
 package com.student.course.registration.dto;
 
 
-import com.student.course.registration.entity.CourseType;
+import com.student.course.registration.entitycommon.entities.CourseType;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 public class CourseCreateUpdateDto {

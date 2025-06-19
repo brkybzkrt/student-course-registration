@@ -9,37 +9,30 @@
         <version>1.0.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>course-service</artifactId>
+    <artifactId>student-service</artifactId>
 
     <dependencies>
         <dependency>
             <groupId>com.student.course.registration</groupId>
             <artifactId>base-interface-common</artifactId>
             <version>${project.version}</version>
-            <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>com.student.course.registration</groupId>
-            <artifactId>exception-filter-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.student.course.registration</groupId>
-            <artifactId>auth-common</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-admin-client</artifactId>
+            <version>24.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.student.course.registration</groupId>
             <artifactId>entity-common</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.student.course.registration</groupId>
+            <artifactId>exception-filter-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
-
-    <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
 </project>

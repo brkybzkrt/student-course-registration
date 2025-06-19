@@ -4,8 +4,8 @@ import com.student.course.registration.base.interceptors.requestPath.RequestCont
 import com.student.course.registration.base.response.SuccessResponse;
 import com.student.course.registration.dto.CourseCreateUpdateDto;
 import com.student.course.registration.dto.CourseResponseDto;
-import com.student.course.registration.entity.Course;
-import com.student.course.registration.entity.CourseType;
+import com.student.course.registration.entitycommon.entities.Course;
+import com.student.course.registration.entitycommon.entities.CourseType;
 import com.student.course.registration.exceptionfiltercommon.exceptionFilter.ResourceNotFoundException;
 import com.student.course.registration.repository.CourseRepository;
 import com.student.course.registration.service.ICourseService;

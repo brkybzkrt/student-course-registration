@@ -2,7 +2,7 @@ package com.student.course.registration.controller.impl;
 
 import com.student.course.registration.controller.ICourseController;
 import com.student.course.registration.dto.CourseCreateUpdateDto;
-import com.student.course.registration.entity.CourseType;
+import com.student.course.registration.entitycommon.entities.CourseType;
 import com.student.course.registration.service.ICourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
