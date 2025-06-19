@@ -24,7 +24,9 @@
 		<module>common-modules/base-interface-common</module>
         <module>common-modules/exception-filter-common</module>
         <module>common-modules/auth-common</module>
-    </modules>
+        <module>student-service</module>
+		<module>common-modules/entity-common</module>
+	</modules>
 
 	<properties>
 		<java.version>21</java.version>
