@@ -1,14 +1,34 @@
 package com.student.course.registration.authcommon.config;
 
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
-@Data
 @Configuration
-@ConfigurationProperties(prefix = "jwt.auth.converter")
+@Data
 public class KeycloakConfiguration {
 
-    private String resourceIp;
-    private String principleAttribute;
+    @Value("${keycloak.auth-base-url}")
+    private String baseUrl;
+
+    @Value("${keycloak.auth-server-url}")
+    private String authServerUrl;
+
+    @Value("${keycloak.realm}")
+    private String realm;
+
+    @Value("${keycloak.client-id}")
+    private String clientId;
+
+    @Value("${keycloak.client-secret}")
+    private String clientSecret;
+
+    @Value("${keycloak.admin-username}")
+    private String adminUsername;
+
+    @Value("${keycloak.admin-password}")
+    private String adminPassword;
+
+
+
 }
