@@ -6,12 +6,13 @@ import com.student.course.registration.base.dtos.LoginDto;
 import com.student.course.registration.base.dtos.RegisterDto;
 import com.student.course.registration.base.interceptors.requestPath.RequestContextHolder;
 import com.student.course.registration.base.response.SuccessResponse;
-import com.student.course.registration.dto.StudentCreateUpdateDto;
-import com.student.course.registration.dto.StudentResponseDto;
+import com.student.course.registration.dto.AdminCreateUpdateDto;
+import com.student.course.registration.dto.AdminResponseDto;
+import com.student.course.registration.entitycommon.entities.Admin;
 import com.student.course.registration.entitycommon.entities.Student;
 import com.student.course.registration.exceptionfiltercommon.exceptionFilter.ResourceNotFoundException;
-import com.student.course.registration.repository.StudentRepository;
-import com.student.course.registration.service.IStudentService;
+import com.student.course.registration.repository.AdminRepository;
+import com.student.course.registration.service.IAdminService;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
@@ -20,7 +21,10 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -31,13 +35,12 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Service
-public class StudentService implements IStudentService {
+public class AdminService implements IAdminService {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-
     @Autowired
-    private StudentRepository studentRepository;
+    private AdminRepository adminRepository;
 
     @Autowired
     private KeycloakConfiguration confs;
@@ -61,10 +64,10 @@ public class StudentService implements IStudentService {
             ResponseEntity<String> response = restTemplate.postForEntity(confs.getAuthServerUrl(), entity, String.class);
 
 
-            return ResponseEntity.ok().body(getStudentResponse(response.getBody(),201,null));
+            return ResponseEntity.ok().body(getAdminResponse(response.getBody(),201,null));
 
         } catch (Exception e) {
-           throw  new RuntimeException(e);
+            throw  new RuntimeException(e);
         }
     }
 
@@ -104,21 +107,21 @@ public class StudentService implements IStudentService {
 
             usersResource.get(userId).resetPassword(credential);
 
-
             RealmResource realmResource = keycloak.realm(confs.getRealm());
-            RoleRepresentation userRole = realmResource.roles().get(confs.getUserRole()).toRepresentation();
+            RoleRepresentation userRole = realmResource.roles().get(confs.getAdminRole()).toRepresentation();
 
             usersResource.get(userId)
                     .roles()
                     .realmLevel()
                     .add(Collections.singletonList(userRole));
 
-            StudentCreateUpdateDto newStudent= new StudentCreateUpdateDto();
 
-            BeanUtils.copyProperties(registerDto,newStudent);
-            newStudent.setKeycloakId(userId);
+            AdminCreateUpdateDto newAdmin= new AdminCreateUpdateDto();
 
-           return create(newStudent);
+            BeanUtils.copyProperties(registerDto,newAdmin);
+            newAdmin.setKeycloakId(userId);
+
+            return create(newAdmin);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -127,17 +130,17 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public ResponseEntity<Object> create(StudentCreateUpdateDto createDto) {
+    public ResponseEntity<Object> create(AdminCreateUpdateDto createDto) {
         try {
-            Student newStudent = new Student();
-            BeanUtils.copyProperties(createDto,newStudent);
+            Admin newAdmin = new Admin();
+            BeanUtils.copyProperties(createDto,newAdmin);
 
-            Student savedStudent = studentRepository.save(newStudent);
+            Admin savedAdmin = adminRepository.save(newAdmin);
 
-            StudentResponseDto response= new StudentResponseDto();
-            BeanUtils.copyProperties(savedStudent,response);
+            AdminResponseDto response= new AdminResponseDto();
+            BeanUtils.copyProperties(savedAdmin,response);
 
-            return ResponseEntity.status(201).body(getStudentResponse(response,201,null));
+            return ResponseEntity.status(201).body(getAdminResponse(response,201,null));
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -147,15 +150,15 @@ public class StudentService implements IStudentService {
     @Override
     public ResponseEntity<Object> getById(String id) {
         try {
-            Optional<Student> student = studentRepository.findById(Long.valueOf(id));
+            Optional<Admin> admin = adminRepository.findById(Long.valueOf(id));
 
-            if(student.isPresent()){
-                StudentResponseDto courseResponse = new StudentResponseDto();
-                BeanUtils.copyProperties(student.get(),courseResponse);
+            if(admin.isPresent()){
+                AdminResponseDto courseResponse = new AdminResponseDto();
+                BeanUtils.copyProperties(admin.get(),courseResponse);
 
-                return ResponseEntity.status(200).body(getStudentResponse(courseResponse,200,null));
+                return ResponseEntity.status(200).body(getAdminResponse(courseResponse,200,null));
             }
-            else  throw new ResourceNotFoundException("Student not found with id: " + id);
+            else  throw new ResourceNotFoundException("Admin not found with id: " + id);
 
 
         } catch (Exception e) {
@@ -164,21 +167,21 @@ public class StudentService implements IStudentService {
     }
 
     @Override
-    public ResponseEntity<Object> updateById(String id, StudentCreateUpdateDto studentCreateUpdateDto) {
+    public ResponseEntity<Object> updateById(String id, AdminCreateUpdateDto adminCreateUpdateDto) {
         try {
-            Optional<Student> student = studentRepository.findById(Long.valueOf(id));
+            Optional<Admin> admin = adminRepository.findById(Long.valueOf(id));
 
-            if(student.isPresent()){
-                BeanUtils.copyProperties(studentCreateUpdateDto,student.get());
+            if(admin.isPresent()){
+                BeanUtils.copyProperties(adminCreateUpdateDto,admin.get());
 
-                Student createdStudent = studentRepository.save(student.get());
+                Admin createdAdmin = adminRepository.save(admin.get());
 
-                StudentResponseDto response = new StudentResponseDto();
-                BeanUtils.copyProperties(createdStudent,response);
+                AdminResponseDto response = new AdminResponseDto();
+                BeanUtils.copyProperties(createdAdmin,response);
 
-                return ResponseEntity.status(200).body(getStudentResponse(response,200,null));
+                return ResponseEntity.status(200).body(getAdminResponse(response,200,null));
             }
-            else  throw new ResourceNotFoundException("Student not found with id: " + id);
+            else  throw new ResourceNotFoundException("Admin not found with id: " + id);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -187,25 +190,27 @@ public class StudentService implements IStudentService {
 
     @Override
     public ResponseEntity<Object> deleteById(String id) {
+
         try {
-            Optional<Student> student = studentRepository.findById(Long.valueOf(id));
+            Optional<Admin> admin = adminRepository.findById(Long.valueOf(id));
 
-            if(student.isPresent()){
-                studentRepository.deleteById(student.get().getId());
+            if(admin.isPresent()){
+                adminRepository.deleteById(admin.get().getId());
 
-                return ResponseEntity.status(200).body(getStudentResponse(null,200,"Successfully Deleted"));
+                return ResponseEntity.status(200).body(getAdminResponse(null,200,"Successfully Deleted"));
             }
 
-            else  throw new ResourceNotFoundException("Student not found with id: " + id);
+            else  throw new ResourceNotFoundException("Admin not found with id: " + id);
 
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
     }
 
 
-    private <T> SuccessResponse<T> getStudentResponse(T data, Integer status, String message) {
+    private <T> SuccessResponse<T> getAdminResponse(T data, Integer status, String message) {
         SuccessResponse<T> response = new SuccessResponse<>();
         response.setTimestamp(LocalDateTime.now());
         response.setStatus(status);

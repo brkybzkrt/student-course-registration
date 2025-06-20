@@ -18,6 +18,10 @@ public class SecurityFilter {
     @Autowired
     CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
+
+    @Autowired
+    KeycloakConfiguration confs;
+
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
@@ -31,8 +35,9 @@ public class SecurityFilter {
 //                    .cors(Customizer.withDefaults())
                     .csrf(csrf -> csrf.disable())
                     .authorizeHttpRequests(auth ->auth
-                            .requestMatchers("/api/v1/courses/**").hasRole("admin")
+                            .requestMatchers("/api/v1/courses/**").hasRole(confs.getAdminRole())
                             .requestMatchers("/api/v1/students/**").permitAll()
+                            .requestMatchers("api/v1/admins/**").hasRole(confs.getAdminRole())
                             .anyRequest().authenticated())
 
                     .exceptionHandling(exception -> exception
