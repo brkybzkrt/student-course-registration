@@ -15,7 +15,9 @@ import com.student.course.registration.service.IStudentService;
 import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
+import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
+import org.keycloak.representations.idm.RoleRepresentation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -25,6 +27,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -101,6 +104,15 @@ public class StudentService implements IStudentService {
 
             usersResource.get(userId).resetPassword(credential);
 
+
+            RealmResource realmResource = keycloak.realm(confs.getRealm());
+            RoleRepresentation userRole = realmResource.roles().get(confs.getUserRole()).toRepresentation();
+
+            usersResource.get(userId)
+                    .roles()
+                    .realmLevel()
+                    .add(Collections.singletonList(userRole));
+
             StudentCreateUpdateDto newStudent= new StudentCreateUpdateDto();
 
             BeanUtils.copyProperties(registerDto,newStudent);
@@ -159,10 +171,10 @@ public class StudentService implements IStudentService {
             if(student.isPresent()){
                 BeanUtils.copyProperties(studentCreateUpdateDto,student.get());
 
-                Student createdCourse = studentRepository.save(student.get());
+                Student createdStudent = studentRepository.save(student.get());
 
                 StudentResponseDto response = new StudentResponseDto();
-                BeanUtils.copyProperties(createdCourse,response);
+                BeanUtils.copyProperties(createdStudent,response);
 
                 return ResponseEntity.status(200).body(getStudentResponse(response,200,null));
             }

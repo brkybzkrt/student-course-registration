@@ -29,6 +29,10 @@ public class KeycloakConfiguration {
     @Value("${keycloak.admin-password}")
     private String adminPassword;
 
+    @Value("${keycloak.admin-role}")
+    private String adminRole;
 
+    @Value("${keycloak.user-role}")
+    private String userRole;
 
 }
