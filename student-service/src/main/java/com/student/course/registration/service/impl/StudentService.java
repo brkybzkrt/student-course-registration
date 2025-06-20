@@ -2,10 +2,10 @@ package com.student.course.registration.service.impl;
 
 
 import com.student.course.registration.authcommon.config.KeycloakConfiguration;
+import com.student.course.registration.base.dtos.LoginDto;
+import com.student.course.registration.base.dtos.RegisterDto;
 import com.student.course.registration.base.interceptors.requestPath.RequestContextHolder;
 import com.student.course.registration.base.response.SuccessResponse;
-import com.student.course.registration.dto.LoginDto;
-import com.student.course.registration.dto.RegisterDto;
 import com.student.course.registration.dto.StudentCreateUpdateDto;
 import com.student.course.registration.dto.StudentResponseDto;
 import com.student.course.registration.entitycommon.entities.Student;

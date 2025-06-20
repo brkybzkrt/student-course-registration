@@ -1,4 +1,4 @@
-package com.student.course.registration.dto;
+package com.student.course.registration.base.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

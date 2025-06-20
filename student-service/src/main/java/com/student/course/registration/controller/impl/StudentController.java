@@ -1,9 +1,9 @@
 package com.student.course.registration.controller.impl;
 
 
+import com.student.course.registration.base.dtos.LoginDto;
+import com.student.course.registration.base.dtos.RegisterDto;
 import com.student.course.registration.controller.IStudentController;
-import com.student.course.registration.dto.LoginDto;
-import com.student.course.registration.dto.RegisterDto;
 import com.student.course.registration.dto.StudentCreateUpdateDto;
 import com.student.course.registration.service.IStudentService;
 import jakarta.validation.Valid;
