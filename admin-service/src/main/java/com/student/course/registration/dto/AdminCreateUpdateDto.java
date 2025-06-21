@@ -1,6 +1,7 @@
 package com.student.course.registration.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -17,6 +18,6 @@ public class AdminCreateUpdateDto {
     @Email(message = "Email format must be right")
     private String email;
 
-
+    @JsonIgnore
     private String keycloakId;
 }
