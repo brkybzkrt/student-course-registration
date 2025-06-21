@@ -38,6 +38,12 @@ public class SecurityFilter {
                             .requestMatchers("/api/v1/courses/**").hasRole(confs.getAdminRole())
                             .requestMatchers("/api/v1/students/**").permitAll()
                             .requestMatchers("api/v1/admins/**").hasRole(confs.getAdminRole())
+                            .requestMatchers(
+                                    "/v3/api-docs/**",
+                                    "/swagger-ui/**",
+                                    "/swagger-ui.html",
+                                    "/docs"
+                            ).permitAll()
                             .anyRequest().authenticated())
 
                     .exceptionHandling(exception -> exception
