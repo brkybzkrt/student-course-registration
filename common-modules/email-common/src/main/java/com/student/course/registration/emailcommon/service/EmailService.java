@@ -3,6 +3,8 @@ package com.student.course.registration.emailcommon.service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.student.course.registration.emailcommon.dto.EmailDto;
+import com.student.course.registration.emailcommon.dto.EmailTemplateDto;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,13 +30,13 @@ public class EmailService {
     private String sender;
 
 
-    public ResponseEntity<Object> sendEmail(String to, String subject, String text){
+    public ResponseEntity<Object> sendEmail(EmailDto emailDto){
         try {
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(sender);
-            message.setTo(to);
-            message.setSubject(subject);
-            message.setText(text);
+            message.setTo(emailDto.getTo());
+            message.setSubject(emailDto.getSubject());
+            message.setText(emailDto.getText());
 
 
             mailSender.send(message);
@@ -48,15 +50,15 @@ public class EmailService {
 
 
 
-    public ResponseEntity<Object> sendEmail(String to, String subject, String text, MultipartFile file){
+    public ResponseEntity<Object> sendEmail(EmailDto emailDto, MultipartFile file){
         try{
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message,true);
 
             helper.setFrom(sender);
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(text);
+            helper.setTo(emailDto.getTo());
+            helper.setSubject(emailDto.getSubject());
+            helper.setText(emailDto.getText());
 
             if (file != null && !file.isEmpty()) {
                 helper.addAttachment(file.getOriginalFilename(), file);
@@ -71,16 +73,16 @@ public class EmailService {
     }
 
 
-    public ResponseEntity<Object> sendHtmlEmail(String to, String subject, String templatePath) {
+    public ResponseEntity<Object> sendHtmlEmail(EmailTemplateDto emailTemplateDto) {
         try {
-            String htmlContent = loadTemplate(templatePath);
+            String htmlContent = loadTemplate(emailTemplateDto.getTemplatePath());
 
             MimeMessage message = mailSender.createMimeMessage();
 
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
             helper.setFrom(sender);
-            helper.setTo(to);
-            helper.setSubject(subject);
+            helper.setTo(emailTemplateDto.getTo());
+            helper.setSubject(emailTemplateDto.getSubject());
             helper.setText(htmlContent, true);
             mailSender.send(message);
 
