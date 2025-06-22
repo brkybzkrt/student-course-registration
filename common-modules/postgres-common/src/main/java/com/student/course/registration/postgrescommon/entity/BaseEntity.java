@@ -19,6 +19,10 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public class BaseEntity {
 
+    public BaseEntity(Long id) {
+        this.id = id;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

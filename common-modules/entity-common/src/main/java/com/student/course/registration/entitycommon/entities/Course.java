@@ -26,6 +26,10 @@ public class Course extends BaseEntity {
     @Column(name = "name",nullable = false,unique = true)
     private String name;
 
+    public Course(Long id) {
+        super(id);
+    }
+
     @Column(name = "maxCapacity")
     @ColumnDefault("15")
     private int maxCapacity;

@@ -22,6 +22,10 @@ public class Student extends BaseEntity {
     @Column(name = "username",nullable = false,unique = true)
     private String username;
 
+    public Student(Long id) {
+        super(id);
+    }
+
     @Column(name = "email",nullable = false,unique = true)
     private String email;
 
