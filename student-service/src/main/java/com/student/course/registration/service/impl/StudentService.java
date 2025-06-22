@@ -7,7 +7,7 @@ import com.student.course.registration.base.dtos.RegisterDto;
 import com.student.course.registration.base.interceptors.requestPath.RequestContextHolder;
 import com.student.course.registration.base.response.SuccessResponse;
 import com.student.course.registration.dto.StudentCreateUpdateDto;
-import com.student.course.registration.dto.StudentResponseDto;
+import com.student.course.registration.entitycommon.dtos.StudentResponseDto;
 import com.student.course.registration.entitycommon.entities.Student;
 import com.student.course.registration.exceptionfiltercommon.exceptionFilter.ResourceNotFoundException;
 import com.student.course.registration.repository.StudentRepository;
@@ -150,10 +150,12 @@ public class StudentService implements IStudentService {
             Optional<Student> student = studentRepository.findById(Long.valueOf(id));
 
             if(student.isPresent()){
-                StudentResponseDto courseResponse = new StudentResponseDto();
-                BeanUtils.copyProperties(student.get(),courseResponse);
+                StudentResponseDto studentResponse = new StudentResponseDto();
+                BeanUtils.copyProperties(student.get(),studentResponse);
+                studentResponse.setCanRegisterCourse(student.get().canRegisterMoreCourses());
 
-                return ResponseEntity.status(200).body(getStudentResponse(courseResponse,200,null));
+
+                return ResponseEntity.status(200).body(getStudentResponse(studentResponse,200,null));
             }
             else  throw new ResourceNotFoundException("Student not found with id: " + id);
 

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/courses")
@@ -53,5 +55,12 @@ public class CourseController implements ICourseController {
     @Override
     public ResponseEntity<Object> getCoursesByType(@PathVariable(name = "type") CourseType type) {
         return courseService.getCoursesByType(type);
+    }
+
+    @Operation(summary = "Get courses by ids")
+    @PostMapping("/list")
+    @Override
+    public ResponseEntity<Object> getCoursesByIds(@RequestBody List<Long> ids) {
+        return courseService.getCoursesByIds(ids);
     }
 }

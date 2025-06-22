@@ -3,7 +3,7 @@ package com.student.course.registration.service.impl;
 import com.student.course.registration.base.interceptors.requestPath.RequestContextHolder;
 import com.student.course.registration.base.response.SuccessResponse;
 import com.student.course.registration.dto.CourseCreateUpdateDto;
-import com.student.course.registration.dto.CourseResponseDto;
+import com.student.course.registration.entitycommon.dtos.CourseResponseDto;
 import com.student.course.registration.entitycommon.entities.Course;
 import com.student.course.registration.entitycommon.entities.CourseType;
 import com.student.course.registration.exceptionfiltercommon.exceptionFilter.ResourceNotFoundException;
@@ -127,6 +127,23 @@ public class CourseService implements ICourseService {
             else  throw new ResourceNotFoundException("There are no courses like this type yet, that you are looking for");
 
 
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public ResponseEntity<Object> getCoursesByIds( List<Long> ids) {
+        try {
+            List<Course> courses = courseRepository.findAllById(ids);
+
+            List<CourseResponseDto> courseDtos = courses.stream().map(course -> {
+                CourseResponseDto dto = new CourseResponseDto();
+                BeanUtils.copyProperties(course, dto);
+                return dto;
+            }).collect(Collectors.toList());
+
+            return ResponseEntity.ok(getCourseResponse(courseDtos, 200, "success"));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
