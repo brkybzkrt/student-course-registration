@@ -1,4 +1,4 @@
-package com.student.course.registration.dto;
+package com.student.course.registration.entitycommon.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,4 +16,5 @@ public class StudentResponseDto {
     private String email;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private Boolean canRegisterCourse;
 }

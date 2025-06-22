@@ -1,5 +1,4 @@
-package com.student.course.registration.dto;
-
+package com.student.course.registration.entitycommon.dtos;
 
 import com.student.course.registration.entitycommon.entities.CourseType;
 import lombok.AllArgsConstructor;
@@ -21,3 +20,4 @@ public class CourseResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
+
