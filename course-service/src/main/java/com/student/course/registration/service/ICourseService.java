@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface ICourseService extends IBaseInterface<String,CourseCreateUpdateDto> {
 
-    public ResponseEntity<Object> getCoursesByType (CourseType type);
-    public ResponseEntity<Object> getCoursesByIds (List<Long> ids);
+    ResponseEntity<Object> getCoursesByType(CourseType type);
+    ResponseEntity<Object> getCoursesByIds (List<Long> ids);
 }
