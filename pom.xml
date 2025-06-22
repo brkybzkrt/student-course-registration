@@ -27,6 +27,7 @@
         <module>student-service</module>
 		<module>common-modules/entity-common</module>
         <module>admin-service</module>
+        <module>notification-service</module>
     </modules>
 
 	<properties>
