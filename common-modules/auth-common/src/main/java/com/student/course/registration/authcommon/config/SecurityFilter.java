@@ -44,6 +44,7 @@ public class SecurityFilter {
                                     "/swagger-ui.html",
                                     "/docs"
                             ).permitAll()
+                            .requestMatchers("/api/v1/registrations/**").permitAll()
                             .anyRequest().authenticated())
 
                     .exceptionHandling(exception -> exception
@@ -52,7 +53,6 @@ public class SecurityFilter {
                             .accessDeniedHandler(accessDeniedHandler)
                     )
                     .oauth2ResourceServer(oauth2 ->oauth2
-                            .authenticationEntryPoint(customAuthenticationEntryPoint)
                             .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                     );
 
