@@ -45,6 +45,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(createErrorResponse(errors,HttpStatus.NOT_FOUND.value(), null));
     };
 
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException e) {
+        String errors = e.getMessage() != null ? e.getMessage() : "Illegal Argument";
+        
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(createErrorResponse(errors, HttpStatus.BAD_REQUEST.value(), null));
+    }
 
 
     private List<String> addMapValue(List<String> list,String newValue){
