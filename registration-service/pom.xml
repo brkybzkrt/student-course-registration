@@ -23,6 +23,7 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>com.student.course.registration</groupId>
             <artifactId>base-interface-common</artifactId>
@@ -36,6 +37,11 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.student.course.registration</groupId>
+            <artifactId>kafka-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

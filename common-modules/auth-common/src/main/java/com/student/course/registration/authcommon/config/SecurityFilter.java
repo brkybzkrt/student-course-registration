@@ -35,7 +35,7 @@ public class SecurityFilter {
 //                    .cors(Customizer.withDefaults())
                     .csrf(csrf -> csrf.disable())
                     .authorizeHttpRequests(auth ->auth
-                            .requestMatchers("/api/v1/courses/**").hasRole(confs.getAdminRole())
+                            .requestMatchers("/api/v1/courses/**").permitAll()
                             .requestMatchers("/api/v1/students/**").permitAll()
                             .requestMatchers("api/v1/admins/**").hasRole(confs.getAdminRole())
                             .requestMatchers(
@@ -49,7 +49,6 @@ public class SecurityFilter {
 
                     .exceptionHandling(exception -> exception
                             .authenticationEntryPoint(customAuthenticationEntryPoint)
-
                             .accessDeniedHandler(accessDeniedHandler)
                     )
                     .oauth2ResourceServer(oauth2 ->oauth2
