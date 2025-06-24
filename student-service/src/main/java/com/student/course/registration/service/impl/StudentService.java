@@ -61,7 +61,7 @@ public class StudentService implements IStudentService {
             ResponseEntity<String> response = restTemplate.postForEntity(confs.getAuthServerUrl(), entity, String.class);
 
 
-            return ResponseEntity.ok().body(getStudentResponse(response.getBody(),201,null));
+            return ResponseEntity.status(HttpStatus.CREATED.value()).body(getStudentResponse(response.getBody(),HttpStatus.CREATED.value(), null));
 
         } catch (Exception e) {
            throw  new RuntimeException(e);
@@ -137,7 +137,7 @@ public class StudentService implements IStudentService {
             StudentResponseDto response= new StudentResponseDto();
             BeanUtils.copyProperties(savedStudent,response);
 
-            return ResponseEntity.status(201).body(getStudentResponse(response,201,null));
+            return ResponseEntity.status(HttpStatus.CREATED.value()).body(getStudentResponse(response,HttpStatus.CREATED.value(),null));
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -155,7 +155,7 @@ public class StudentService implements IStudentService {
                 studentResponse.setCanRegisterCourse(student.get().canRegisterMoreCourses());
 
 
-                return ResponseEntity.status(200).body(getStudentResponse(studentResponse,200,null));
+                return ResponseEntity.ok().body(getStudentResponse(studentResponse,HttpStatus.OK.value(), null));
             }
             else  throw new ResourceNotFoundException("Student not found with id: " + id);
 
@@ -178,7 +178,7 @@ public class StudentService implements IStudentService {
                 StudentResponseDto response = new StudentResponseDto();
                 BeanUtils.copyProperties(createdStudent,response);
 
-                return ResponseEntity.status(200).body(getStudentResponse(response,200,null));
+                return ResponseEntity.ok().body(getStudentResponse(response,HttpStatus.OK.value(), null));
             }
             else  throw new ResourceNotFoundException("Student not found with id: " + id);
 
@@ -195,7 +195,7 @@ public class StudentService implements IStudentService {
             if(student.isPresent()){
                 studentRepository.deleteById(student.get().getId());
 
-                return ResponseEntity.status(200).body(getStudentResponse(null,200,"Successfully Deleted"));
+                return ResponseEntity.ok().body(getStudentResponse(null,HttpStatus.OK.value(), "Successfully Deleted"));
             }
 
             else  throw new ResourceNotFoundException("Student not found with id: " + id);

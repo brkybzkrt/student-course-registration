@@ -32,7 +32,7 @@ public class Course extends BaseEntity {
 
     @Column(name = "maxCapacity")
     @ColumnDefault("15")
-    private int maxCapacity;
+    private Integer maxCapacity;
 
     @Column(name = "enrolled_students", nullable = false)
     @ColumnDefault("0")

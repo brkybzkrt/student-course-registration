@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @Entity
 @Table(name = "course_registrations")
 @Getter
@@ -26,6 +28,9 @@ public class CourseRegistration extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RegistrationStatusType status = RegistrationStatusType.PENDING;
+
+    @Column(name = "registration_group_id", nullable = false)
+    private UUID registrationGroupId;
 
     @Column(name = "approved_by")
     private String approvedBy;
