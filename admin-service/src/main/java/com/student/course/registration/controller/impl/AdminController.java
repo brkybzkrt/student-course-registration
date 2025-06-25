@@ -62,4 +62,10 @@ public class AdminController implements IAdminController {
     public ResponseEntity<Object> deleteById(@RequestParam(name = "id") String id) {
         return adminService.deleteById(id);
     }
+
+    @GetMapping
+    @Override
+    public ResponseEntity<Object> getAllAdmins() {
+        return adminService.getAllAdmins();
+    }
 }

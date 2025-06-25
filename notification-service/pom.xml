@@ -34,5 +34,17 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.student.course.registration</groupId>
+            <artifactId>entity-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 </project>

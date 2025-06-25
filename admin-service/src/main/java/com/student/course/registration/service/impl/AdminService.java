@@ -7,9 +7,8 @@ import com.student.course.registration.base.dtos.RegisterDto;
 import com.student.course.registration.base.interceptors.requestPath.RequestContextHolder;
 import com.student.course.registration.base.response.SuccessResponse;
 import com.student.course.registration.dto.AdminCreateUpdateDto;
-import com.student.course.registration.dto.AdminResponseDto;
+import com.student.course.registration.entitycommon.dtos.AdminResponseDto;
 import com.student.course.registration.entitycommon.entities.Admin;
-import com.student.course.registration.entitycommon.entities.Student;
 import com.student.course.registration.exceptionfiltercommon.exceptionFilter.ResourceNotFoundException;
 import com.student.course.registration.repository.AdminRepository;
 import com.student.course.registration.service.IAdminService;
@@ -21,10 +20,7 @@ import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -32,6 +28,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -209,6 +206,25 @@ public class AdminService implements IAdminService {
 
     }
 
+
+    @Override
+    public ResponseEntity<Object> getAllAdmins() {
+        try {
+            List<Admin> admins = adminRepository.findAll();
+
+            List<AdminResponseDto> responseDtos = admins.stream().map(admin -> {
+                AdminResponseDto dto = new AdminResponseDto();
+                dto.setEmail(admin.getEmail());
+                dto.setUsername(admin.getUsername());
+                return dto;
+            }).toList();
+
+            return ResponseEntity.ok().body(getAdminResponse(responseDtos, HttpStatus.OK.value(), null));
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private <T> SuccessResponse<T> getAdminResponse(T data, Integer status, String message) {
         SuccessResponse<T> response = new SuccessResponse<>();
