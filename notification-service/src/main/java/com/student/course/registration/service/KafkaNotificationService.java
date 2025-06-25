@@ -45,7 +45,7 @@ public class KafkaNotificationService {
     }
 
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(cron = "0 */10 * * * *") // every 10 minutes
     public void retryFailedEmails() {
         List<FailedEmail> failedEmails = failedEmailRepository.findByAttemptCountLessThan(retryLimit);
 
@@ -63,5 +63,7 @@ public class KafkaNotificationService {
             }
         }
     }
+
+
 
 }

@@ -27,7 +27,7 @@ public class ScheduleService {
     private RegistrationFeignClient registrationFeignClient;
 
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(cron = "0 0 */3 * * *") // every three hours
     public void scheduledNotification() {
 
         try {
