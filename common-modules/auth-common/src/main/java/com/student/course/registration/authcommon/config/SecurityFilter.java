@@ -37,6 +37,8 @@ public class SecurityFilter {
                     .authorizeHttpRequests(auth ->auth
                             .requestMatchers("/api/v1/courses/**").permitAll()
                             .requestMatchers("/api/v1/students/**").permitAll()
+                            .requestMatchers("api/v1/admins/login").permitAll()
+                            .requestMatchers("api/v1/admins/register").permitAll()
                             .requestMatchers("api/v1/admins/**").hasRole(confs.getAdminRole())
                             .requestMatchers(
                                     "/v3/api-docs/**",
