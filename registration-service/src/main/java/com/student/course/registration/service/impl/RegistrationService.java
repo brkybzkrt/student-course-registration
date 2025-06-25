@@ -2,12 +2,9 @@ package com.student.course.registration.service.impl;
 
 import com.student.course.registration.base.interceptors.requestPath.RequestContextHolder;
 import com.student.course.registration.base.response.SuccessResponse;
-import com.student.course.registration.dto.GroupedRegistrationDto;
 import com.student.course.registration.dto.ProcessRegistrationGroupDto;
 import com.student.course.registration.dto.RegistrationCreateUpdateDto;
-import com.student.course.registration.dto.RegistrationResponseDto;
-import com.student.course.registration.entitycommon.dtos.CourseResponseDto;
-import com.student.course.registration.entitycommon.dtos.StudentResponseDto;
+import com.student.course.registration.entitycommon.dtos.*;
 import com.student.course.registration.entitycommon.entities.*;
 import com.student.course.registration.feingClients.CourseFeignClient;
 import com.student.course.registration.feingClients.StudentFeignClient;
@@ -179,6 +176,35 @@ public class RegistrationService  implements IRegistrationService {
     }
 
 
+
+    @Transactional
+    @Override
+    public ResponseEntity<Object> getPendingRegistrationGroupsForNotification() {
+        try {
+            List<CourseRegistration> allPending = registrationRepository.findByStatus(RegistrationStatusType.PENDING);
+
+            Map<UUID, List<CourseRegistration>> grouped = allPending.stream()
+                    .collect(Collectors.groupingBy(CourseRegistration::getRegistrationGroupId));
+
+            List<PendingRegistrationNotificationDto> result = new ArrayList<>();
+
+            for (Map.Entry<UUID, List<CourseRegistration>> entry : grouped.entrySet()) {
+                UUID groupId = entry.getKey();
+                List<CourseRegistration> groupRegs = entry.getValue();
+
+                if (groupRegs.isEmpty()) continue;
+
+                String username = groupRegs.get(0).getStudent().getUsername();
+
+                result.add(new PendingRegistrationNotificationDto(groupId, username));
+            }
+
+            return ResponseEntity.ok().body(getRegistrationResponse(result,HttpStatus.OK.value(),null));
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private <T> SuccessResponse<T> getRegistrationResponse(T data, Integer status, String message) {
         SuccessResponse<T> response = new SuccessResponse<>();

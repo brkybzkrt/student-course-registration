@@ -1,4 +1,4 @@
-package com.student.course.registration.dto;
+package com.student.course.registration.entitycommon.dtos;
 
 import com.student.course.registration.entitycommon.entities.RegistrationStatusType;
 import lombok.AllArgsConstructor;

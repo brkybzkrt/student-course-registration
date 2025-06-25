@@ -11,4 +11,5 @@ public interface IRegistrationService {
     ResponseEntity<Object> registerCourses(RegistrationCreateUpdateDto registrationCreateUpdateDto);
     ResponseEntity<Object> getAllPendingGroupedByRegistrationGroup();
     ResponseEntity<Object> processRegistrationGroup(ProcessRegistrationGroupDto processRegistrationGroupDto);
+    ResponseEntity<Object> getPendingRegistrationGroupsForNotification();
 }

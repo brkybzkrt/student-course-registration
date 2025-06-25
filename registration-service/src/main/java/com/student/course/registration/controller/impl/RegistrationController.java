@@ -35,4 +35,10 @@ public class RegistrationController implements IRegistrationController {
     public ResponseEntity<Object> processRegistrationGroup(@RequestBody @Valid ProcessRegistrationGroupDto processRegistrationGroupDto) {
         return registrationService.processRegistrationGroup(processRegistrationGroupDto);
     }
+
+    @GetMapping("/get-pending-for-notification")
+    @Override
+    public ResponseEntity<Object> getPendingRegistrationGroupsForNotification() {
+        return registrationService.getPendingRegistrationGroupsForNotification();
+    }
 }
