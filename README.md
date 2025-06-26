@@ -1,4 +1,4 @@
-# Öğrenci Ders Kayıt Sistemi (Student Course Registration System)
+# Öğrenci Ders Kayıt Sistemi / Student Course Registration System
 
 ## 🇹🇷 Türkçe
 
@@ -51,3 +51,55 @@ Sistemin temel varlıkları:
 - **OpenID Connect**: Keycloak ile kimlik doğrulama
 - **Role-Based Access Control**: Rol tabanlı erişim kontrolü
 - **JWT Token**: Güvenli kimlik doğrulama için token tabanlı sistem
+
+---
+
+## 🇬🇧 English
+
+### About the Project
+This project is an application with a microservice architecture that enables students to register for courses, manage their course selections, and track their course registrations. The system supports core functions such as student and course management, registration processes, and notification delivery.
+
+### Technologies and Tools
+- **Java 21**: Core programming language of the application
+- **Spring Boot 3.5.0**: Application framework
+- **Spring Cloud**: Tools for microservice architecture
+- **Spring Data JPA**: ORM solution for database operations
+- **Spring Security**: Security and authentication
+- **Keycloak**: Identity and access management
+- **PostgreSQL**: Relational database
+- **Kafka**: Asynchronous messaging and event-based communication
+- **Feign Client**: HTTP communication between services
+- **Lombok**: Helper library to reduce code repetition
+- **Springdoc OpenAPI**: API documentation
+
+### Architectural Structure
+The project includes the following microservices and has a parent module structure.
+Microservices can easily use the necessary common packages by adding them to their dependencies:
+
+#### Services
+1. **student-service**: Management of student information
+2. **course-service**: Management of course information
+3. **registration-service**: Management of course registration/approval processes
+4. **admin-service**: Management of administrative operations
+5. **notification-service**: Management of notification operations (Email)
+
+#### Common Modules
+1. **auth-common**: Keycloak-based authentication and authorization
+2. **base-interface-common**: Basic interface/dto/response/swagger definitions
+3. **email-common**: Common functions for email sending
+4. **entity-common**: Database entity definitions
+5. **exception-filter-common**: Error management
+6. **kafka-common**: Kafka messaging configuration (topics, dtos)
+7. **postgres-common**: A common BaseEntity configuration that all PostgreSQL entities will inherit
+
+### Data Model
+Core entities of the system:
+- **Student**: Student information
+- **Course**: Course information
+- **CourseRegistration**: Course registration information
+- **Admin**: Administrator information
+
+### Security
+- **OpenID Connect**: Authentication with Keycloak
+- **Role-Based Access Control**: Role-based access control
+- **JWT Token**: Token-based system for secure authentication
